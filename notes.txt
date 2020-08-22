@@ -1,0 +1,56 @@
+1,2 - generally OK, good explanation of web services in general. Note that the cURL code is
+not relevant here; you only need to talk about thr web service itself.
+
+3 - you have shown code but need more of an explanation. You need to discuss which errors
+you check for (e.g. not enough rooms in the accommodation for that date) and explain which
+HTTP code you would send back in each case and why.
+
+4 - correct general procedure but more detail needed on how the JSON is parsed
+into an array of JavaScript objects. Also it's requirement 1 you need to communicate
+with, not requirement 3.
+
+
+5 - This is not the correct approach; rather than setting up a new route on the
+web service, you need to make a cURL request from VisitHampshire to your
+requirement 2 with the location in the URL set to Hampshire.
+
+6 - more detail needed on how you would use the GPS latitude and longitude to
+set the position of the Leaflet map.
+
+7 - more detail needed on how you extract the latitude and longitude from the JSON
+and use them to create your marker.
+
+8 - as for question 5, you need to use cURL here. You need to use cURL to connect to your Task 3 web service;
+send a cURL POST request. See Topic 4.
+
+_________________________________________________________________________________________________________________
+______________________________________________________________________________________________----------
+------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+Note that your web service did not work as you had a conflict between two of your
+routes, /Hamps/{search term} and /Hamps/create. These both have the same pattern,
+/Hamps/ followed by a string, and thus conflict. Once I had fixed this your web
+service worked.
+
+1,2 - fine.
+
+3 - fine though you should not use 401 if there is no availability, 401 is 'unauthorised'
+which means you're trying to access the web service without the correct authentication
+(e.g. login details). You should also check if the accommodation ID exists or if the
+date exists in the database.
+
+4,6,7 - fine. A possible improvement is to delete the old markers from the previous
+search before you do a new search.
+
+5,8 - some code started but not completed.
+
+Requirements completion: D1
+Code quality: D1
+
+
+
+Note this will be capped at 40% due to being a late submission.

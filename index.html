@@ -1,0 +1,137 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title> PlacesToStay </title>
+    <link rel="stylesheet" href="pts.css">
+   <script src="jquery-3.4.1.slim.js"></script>
+</head>
+<body> 
+
+<header>
+    <h1>Web Application Development(SWD601) </h1>
+    <h1>AE2-Cristian Batekela Martin Rodriguez</h1>
+    <hr>
+
+    <div class="message"  >
+    <h4> This assigment has not been done because I was unable to fulfill all the points so it was imposible for me to have the 
+        A4 that i needed to pass the assigment </h4>
+    </div>
+
+    <a href="https://edward2.solent.ac.uk/~wad1941/assesment/pts.php">To PlacesToStay </a>
+    
+
+</header>
+    <div class="question">
+        <hr>
+        <h2>Requirement 1 and 2</h2>
+        <p>2)There should be a web service to allow clients to look up all accommodation of a given type in a given location (e.g. all hotels in Hampshire) </p>
+        <br>
+        <h4>Query links:</h4>
+        <div class="controls" style="justify-content:space-around;">
+            URL:<input type="text" id="txtQuery" name="queryString" style="width:75%;">
+            <input type="button" id="btnGo" value="Go!" style="width:15%;">
+        </div>
+        <p>Click on a button to set the query string to that preset...</p>
+        <div class="controls" style="justify-content:space-around;">
+            <input type="button" class="linkbutton" id="btnAll" value="All">
+            <input type="button" class="linkbutton" id="btnLoc" value="Loc">
+            <input type="button" class="linkbutton" id="btnType" value="Type">
+        </div>
+        <hr>
+    </div>
+        <hr>
+
+ 
+    <div class="question">
+        <hr>
+        <h2>Requirement 3</h2>
+        <p>3)Create a web service to allow clients to book a place of accommodation for a given number of people on a given date. This should communicate its success or otherwise to its clients appropriately. Please note: assume that it is a simplified system in which you do not have to worry about room allocation, differences between adults and children, taking payment, etc.</p>
+        <br>
+        <code>
+            $app->get('/book/{name}/number/{number}/date/{date}', function($req,$res, array $args){
+            $stmt = $this -> db -> prepare("SELECT id FROM `accommodation` where `name` = :name " );
+            $stmt->bindParam(':name',$args['name']);
+            $stmt ->execute();
+            $row = $stmt->fetch(PDO::FETCH_ASSOC);
+            $id=$row["id"];
+                
+              $stmt2 = $this -> db -> prepare("SELECT * FROM `acc_dates` where `accId` = $id " );
+              $stmt2 ->execute();
+              $row2 = $stmt2->fetch(PDO::FETCH_ASSOC); 
+        
+                if($row2["availability"] < $args['number'] ){
+        
+                    $stmt3=$this ->db -> prepare("INSERT INTO 'acc_bookings' (`accID`, `thedate`, `npeople`) VALUES ( $id, :dato , :numbero ) ");
+                    $stmt3->bindParam(':dato',$args['date']);
+                    $stmt3->bindParam(':numbero',$args['number']);
+                    $stmt3 ->execute();
+                    
+                    $stmt4=$this ->db -> prepare(" UPDATE  'acc_dates' SET availability=availability -:numbero where id=$id");
+                    $stmt4->bindParam(':numbero',$args['number']);
+                    $stmt4 ->execute();
+                    return $res->withStatus(200);
+                }else{
+                    return $res->withStatus(401);
+                }});
+        </code>
+        <h4>Query links:</h4>
+        <hr>
+        <hr>
+    </div>
+
+<div class="question">
+    <hr>
+    <h2>4)	Create an AJAX front end which connects to the web service, and in doing so, allows users to look up all places to stay in a given location. Results must be presented in a user-friendly manner.</h2>
+    <p></p>
+    <br>
+    <h4>Places To Stay </h4>
+    <a href="https://edward2.solent.ac.uk/~wad1941/assesment/pts.php">Front End</a>
+    <hr>
+</div>
+<div class="question">
+    <hr>
+    <h2>-5)	Create a third-party website, VisitHampshire, which is a tourist information site for Hampshire. It should use the PlacesToStay web service rather than its own database. It should allow its own users to look up places to stay of a given type within Hampshire, making use of the web service. Results must be presented in a user-friendly manner.
+        6)	PlacesToStay's own site (not VisitHampshire!) should include web maps (e.g. Leaflet) and should use geolocation to show the user's current location on a device with GPS or wi-fi enabled.
+        7)	On PlacesToStay's own site, extend the AJAX search (task 4) so that all items of accommodation in that location will be shown on the map as markers, as well as shown as text search results.
+    </h2>
+    <p></p>
+    <br>
+    <h4>VisitHampshire</h4>
+    <a href="https://edward2.solent.ac.uk/~wad1941/assesment/pts.php">Front End</a>
+    <hr>
+</div>
+<div class="question">
+    <hr>
+    <h2>-8)	VisitHampshire should allow a user to book an item of accommodation on a given date, by interacting with the PlacesToStay web service. This task should be linked with task 5. Ideally, the user should be able to specify the number of people; if not, assume one.
+    </h2>
+    <p></p>
+    <br>
+    <div class="message"  >
+        <h4> Not done </h4>
+        </div>+
+    <hr>
+</div>
+<div class="question">
+    <hr>
+    <h2>9)	When the user clicks on each marker, a popup describing that item of accommodation should appear. The popup should have a "Book" link allowing the user to book the item of accommodation. When the user clicks "Book" they should enter a date (plus ideally the number of people, if not, assume one) and the item should be booked for that date. The user should be provided with feedback as to whether the booking was successful or not. The front-end must fully use JavaScript and AJAX without any page refresh</h2>
+    <p></p>
+    <br>
+    <div class="message"  >
+        <h4> Not done </h4>
+        </div>
+    <hr>
+</div>
+<div class="question">
+    <hr>
+    <h2>10)Create a new "Check Availability" link on the popup from Task 8. When the user clicks on this link, a graphical view should appear, showing which dates are available, ideally with a colour scheme such as red=booked, green=available. This need not be arranged by month; it can simply be an arbitrary 20 days sometime in the future (e.g. 1-20 June 2020). 
+    </h2>
+    <p></p>
+    <br>
+    <div class="message"  >
+        <h4> Not done </h4>
+        </div>
+    <hr>
+</div>
+<script src="function.js"></script>
+</body>
+</html>

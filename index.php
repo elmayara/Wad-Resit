@@ -1,15 +1,16 @@
 <?php 
 
-//require '/var/www/html/share/vendor/autoload.php';
+$servername = "localhost";
+$username = "root";
+$password = "";
 
-$app = new \Slim\App;
+try{
+//$conn = new PDO("mysql:host=localhost;dbname=wad1941", "wad1941", "ochahdof")
+$conn = new PDO("mysql:host=localhost;dbname=wad1941", $username, $password);
+ // set the PDO error mode to exception
+$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    
 
-$container = $app->getContainer();
-
-$container['db'] = function() {
-    $conn = new PDO("mysql:host=localhost;dbname=wad1941", "wad1941", "ochahdof");
-    return $conn;
-};
 
 $app->get('/allAcom', function($req,$res, array $args){
 	$stmt = $this -> db -> prepare("SELECT * FROM `accommodation` ORDER BY `location` ASC" );
@@ -116,6 +117,10 @@ $app->get('/Hamps/create', function($req,$res, array $args){
             return $res->withStatus(401);
         }});
 
-$app->run();
+     } catch(PDOException $e) 
+        {
+            echo "Error: $e";
+        }
+        
 
 ?>

@@ -1,6 +1,6 @@
 <?php 
 
-require '/var/www/html/share/vendor/autoload.php';
+//require '/var/www/html/share/vendor/autoload.php';
 
 $app = new \Slim\App;
 
@@ -10,7 +10,6 @@ $container['db'] = function() {
     $conn = new PDO("mysql:host=localhost;dbname=wad1941", "wad1941", "ochahdof");
     return $conn;
 };
-
 
 $app->get('/allAcom', function($req,$res, array $args){
 	$stmt = $this -> db -> prepare("SELECT * FROM `accommodation` ORDER BY `location` ASC" );
